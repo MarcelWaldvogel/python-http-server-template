@@ -4,8 +4,14 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 
 served = 0
 
+
 class MyHTTPRequestHandler(BaseHTTPRequestHandler):
     def send_reply(self, code, mime, contents=None, filename=None):
+        """Send a reply with HTTP status code `code`, MIME type `type`, and
+        *either* actual `contents` or the `filename` of a file whose contents
+        should be transmitted. `contents` of MIME type `text/*` are converted
+        to UTF-8 first. A non-existant filename will raise an exception, which
+        is caught and printed by `httpd.serve_forever()`."""
         if filename is not None:
             assert(contents is None)
             with open(filename, 'rb') as f:
@@ -19,6 +25,9 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
         self.wfile.write(contents)
 
     def do_GET(self):
+        """Called, whenever a `GET` request is received by the HTTP server.
+        `self.path` contains the path component of the URL. Other variables
+        are documented in https://docs.python.org/3/library/http.server.html#http.server.BaseHTTPRequestHandler."""
         global served
         served = served + 1
         if self.path == '/':
