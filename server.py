@@ -1,4 +1,8 @@
 #!/usr/bin/python3
+# Minimal HTTP server for educational purposes
+#
+# Written in 2021 by Marcel Waldvogel and made available under
+# [The Unlicense](https://choosealicense.com/licenses/unlicense/).
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
